@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
+require 'eliza_bot'
+
+if ARGV.first == 'telegram'
+  require 'telegram_adapter'
+  token = ENV.fetch('TELEGRAM_BOT_TOKEN') { abort 'set TELEGRAM_BOT_TOKEN first' }
+  warn 'listening for Telegram messages (ctrl-c to stop)'
+  TelegramAdapter.new(token).run
+  exit
+end
+
+bot = ElizaBot.new
+puts "Eliza: #{ElizaBot::GREETING}"
+loop do
+  print 'You:   '
+  line = $stdin.gets
+  break if line.nil?
+
+  reply = bot.respond(line)
+  puts "Eliza: #{reply}"
+  break if reply == ElizaBot::GOODBYE
+end
