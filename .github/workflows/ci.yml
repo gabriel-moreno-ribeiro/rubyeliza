@@ -4,9 +4,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "2.7"
+          ruby-version: "3.3"
       - run: for f in test/*.rb; do ruby -Ilib -Itest "$f"; done
       - run: printf 'my name is Ana\ni feel great\nbye\n' | ruby bin/chat
